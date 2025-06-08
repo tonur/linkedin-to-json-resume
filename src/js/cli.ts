@@ -11,12 +11,13 @@ if (process.argv.length < 3) {
 }
 
 const zipFile = process.argv[2];
-const outputDir = "";
+let outputDir = "";
 
 // Check if argument 3 is provided for the output directory
 if (process.argv.length >= 4)
 {
-    const outputDir = process.argv[3];
+    outputDir = process.argv[3];
+    console.log(`Using output directory: ${outputDir}`);
     if (!fs.existsSync(outputDir))
     {
         console.error('Output directory "${outputDir}" does not exist.');
@@ -107,7 +108,7 @@ yauzl.open(zipFile, { lazyEntries: true }, async (err, zipfile) => {
         const output = linkedinToJsonResume.getOutput();
         const outputPath = path.join(outputDir, 'resume.json');
         fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
-        console.log('Successfully generated resume.json file');
+        console.log(`Successfully generated ${outputPath} file`);
     });
 
     zipfile.readEntry();
